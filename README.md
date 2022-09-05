@@ -18,4 +18,4 @@ Damit solltest du startklar für deine Analysen sein - alle erforderlichen R-Pac
 - ./results
   - charts.RDS *alle Plots (Ergebnisse von businessrun_plot.R)*
 
-**Bei Anmerkungen, Feedback oder Fragen - schreib mir einfach eine E-Mail: [Kontakt](mailto:dataschmience@gmail.com)**
+**Bei Anmerkungen, Feedback oder Fragen - schreib mir einfach eine [E-Mail](mailto:dataschmience@gmail.com)**

@@ -1,26 +1,30 @@
+# businessrun_scrape.R | 2022-09-05
+# für www.dataschmience.at | david selig
 
+# Load & install libraries for this project
+renv::restore()
 
-# INFO
-# https://www.hdsports.at/laufen/wien-energie-business-run
-# example URL https://pentek-timing.at/results.html?pnr=14123&cnr=1
-#
-# obviously, 14123 is "run id" and cnr=1 is simply results of businessrun (there#s also Teamwertung, Nordic-Walking, Betriebsratswertung etc)
-# 14123 = resuls 2021
-# - = COVID (2020)
-# 13558 = 2019
-# 13417 = 2018
-# 13233 = 2017
-#
-# inspect - save as bash(cmd) - https://curlconverter.com/r
+# Save new/used libraries for reproducability
+# renv::snapshot()
 
 require("httr")
 require("jsonlite")
 require("dplyr")
 require("tidyverse")
 
-# Save used libraries for reproducability
-# renv::snapshot()
-# renv::restore()
+# Example Curl Call -------------------------------------------------------
+
+# source page https://www.hdsports.at/laufen/wien-energie-business-run
+# example URL https://pentek-timing.at/results.html?pnr=14123&cnr=1
+#
+# obviously, 14123 is "run id" and cnr=1 is simply results of businessrun (there's also Teamwertung, Nordic-Walking, Betriebsratswertung etc)
+# 14123 = resuls 2021
+# - = COVID (2020)
+# 13558 = 2019
+# 13417 = 2018
+# 13233 = 2017
+#
+# use chrome - F12/inspect - network tab - save as bash(cmd) - https://curlconverter.com/r
 
 set_config(config(ssl_verifypeer = 0L)) # disable SSl verification
 
@@ -53,6 +57,8 @@ params = list(
 )
 
 res <- httr::GET(url = 'https://pentek-timing.at/ws-results/rs/getResults', httr::add_headers(.headers=headers), query = params, httr::set_cookies(.cookies = cookies))
+
+# Scraper (Curl Calls in Loop) -------------------------------------------------------
 
 # CREATE SOURCE TABLE FOR ALL BUSINESS RUNS
 df_source <- data.frame(year=c(2017,2018,2019,2021), url=c(13233,13417,13558,14123))
@@ -107,13 +113,10 @@ for (i in 1:nrow(df_source)) {
     
     vi_from <- vi_from+50
   }
-  # HINT: bind_rows von dplyr:: (statt rbind.fill von plyr) bzw. statt rbind (unterschiedliche anzahl cols, zB weil jeder x-te auf einmal 2 Spalten mehr hat f?r members link o?)
+  # HINT: bind_rows von dplyr:: (statt rbind.fill von plyr) bzw. statt rbind (unterschiedliche anzahl cols, zB weil jeder x-te auf einmal 2 Spalten mehr hat für members link oä)
   df_target <- bind_rows(df_business_run, df_target)
 } 
 
 # finally, save our table
-# write.csv(df_target, "df_target.csv")
+# write.csv(data/df_target, "df_target.csv")
 # saveRDS(df_target, "data/df_target.RDS") # preferrably (smaller/faster)
-
-
-

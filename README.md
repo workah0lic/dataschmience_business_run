@@ -1,5 +1,5 @@
 # Analyse zum Wiener Business Run
-## Für www.dataschmience.at | 2022-09-05
+## Für www.dataschmience.at | 2022-09-06
 
 **Quickstart**
 - Installation von R/RStudio/GIT

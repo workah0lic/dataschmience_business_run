@@ -3,7 +3,7 @@
 
 **Quickstart**
 - Installation von R/RStudio/GIT
-- git pull dieses Repos
+- git clone dieses Repos
 - öffnen der .RProj-Datei
 - ausführen von renv::restore() 
 
